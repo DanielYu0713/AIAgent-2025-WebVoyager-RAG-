@@ -172,7 +172,7 @@ def call_gpt4v_api(args, openai_client, messages):
     while True:
         try:
             if not args.text_only:
-                logging.info("[GPT-4o-mini] Calling gpt4v API...")
+                logging.info("[GPT-4.1-mini] Calling gpt4v API...")
                 openai_response = openai_client.chat.completions.create(
                     model=args.api_model,
                     messages=messages,
@@ -181,7 +181,7 @@ def call_gpt4v_api(args, openai_client, messages):
                     seed=args.seed
                 )
             else:
-                logging.info("[GPT-4o-mini] Calling gpt4 API...")
+                logging.info("[GPT-4.1-mini] Calling gpt4 API...")
                 openai_response = openai_client.chat.completions.create(
                     model=args.api_model,
                     messages=messages,
@@ -193,10 +193,10 @@ def call_gpt4v_api(args, openai_client, messages):
             time.sleep(1)
             prompt_tokens = openai_response.usage.prompt_tokens
             completion_tokens = openai_response.usage.completion_tokens
-            logging.info(f"[GPT-4o-mini] Prompt Tokens: {prompt_tokens}; Completion Tokens: {completion_tokens}")
+            logging.info(f"[GPT-4.1-mini] Prompt Tokens: {prompt_tokens}; Completion Tokens: {completion_tokens}")
             return prompt_tokens, completion_tokens, False, openai_response
         except Exception as e:
-            logging.info(f"[GPT-4o-mini] Error occurred, retrying. Error type: {type(e).__name__}")
+            logging.info(f"[GPT-4.1-mini] Error occurred, retrying. Error type: {type(e).__name__}")
             if type(e).__name__ == 'RateLimitError':
                 time.sleep(10)
             elif type(e).__name__ == 'APIError':
@@ -207,7 +207,7 @@ def call_gpt4v_api(args, openai_client, messages):
                 return None, None, True, None
             retry_times += 1
             if retry_times == 10:
-                logging.info('[GPT-4o-mini] Retrying too many times')
+                logging.info('[GPT-4.1-mini] Retrying too many times')
                 return None, None, True, None
 
 def wait_for_page_load(driver, timeout=20):
@@ -437,7 +437,7 @@ def main():
     parser.add_argument('--error_max_reflection_iter', type=int, default=1, help='當迭代過多時，允許的錯誤反思次數')
 
     parser.add_argument("--api_key", default="key", type=str, help="YOUR_OPENAI_API_KEY")
-    parser.add_argument("--api_model", default="gpt-4o-mini", type=str, help="api model name")
+    parser.add_argument("--api_model", default="gpt-4.1-mini", type=str, help="api model name")
     parser.add_argument("--output_dir", type=str, default='results')
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--max_attached_imgs", type=int, default=1)
@@ -533,7 +533,7 @@ def main():
         product = task.get("product", "Apple iPhone 12 Pro Max (256GB, Pacific Blue)")
         for website in task["websites"]:
             args.trajectory = True
-            if website == "https://www.amazon.com/":
+            if website == "https://www.amazon.co.jp/":
                 # 這邊只是例子，Amazon就關閉trajectory
                 args.trajectory = False
 
@@ -601,9 +601,8 @@ def main():
                  + f"Now given a task: {task['ques']} On website {website}, "
                    f"search for the product '{product}' and extract its product name, website and price "
                    "in the format: Product: <Product_Name>, Website: <Website>, Price: $<Price>.\n"
-                 + "You MUST scroll through the product listings for at least one full page to gather sufficient information.\n"
                  + obs_prompt
-            )
+            ) #把最後的要求(Scroll刪除)
 
             it = 0
             accumulate_prompt_token = 0
@@ -730,7 +729,7 @@ def main():
                     error_history.append({
                         "error_type": "gpt_call_error",
                         "iteration": it,
-                        "message": "GPT-4o API call error"
+                        "message": "GPT-4.1 API call error"
                     })
                     break
 
@@ -748,7 +747,7 @@ def main():
 
                 gpt_4v_res = openai_response.choices[0].message.content
                 messages.append({'role': 'assistant', 'content': gpt_4v_res})
-                logging.info("[GPT-4o-mini] " + gpt_4v_res)
+                logging.info("[GPT-4.1-mini] " + gpt_4v_res)
 
                 try:
                     assert 'Thought:' in gpt_4v_res and 'Action:' in gpt_4v_res
@@ -793,7 +792,7 @@ def main():
                         "iteration": it,
                         "message": fail_obs
                     })
-                    logging.error(f"[GPT-4o-mini] Response format error: {fail_obs}")
+                    logging.error(f"[GPT-4.1-mini] Response format error: {fail_obs}")
                     continue
                 fail_obs = ""
 
@@ -819,7 +818,7 @@ def main():
                             if not args.text_only:
                                 if idx < 0 or idx >= len(web_eles):
                                     fail_obs = "Invalid numerical label for click action."
-                                    logging.error(f"[GPT-4o-mini] {fail_obs}")
+                                    logging.error(f"[GPT-4.1-mini] {fail_obs}")
                                     error_history.append({
                                         "error_type": "invalid_click_index",
                                         "iteration": it,
@@ -830,7 +829,7 @@ def main():
                             else:
                                 if idx < 0 or idx >= len(obs_info):
                                     fail_obs = "Invalid numerical label for click action."
-                                    logging.error(f"[GPT-4o-mini] {fail_obs}")
+                                    logging.error(f"[GPT-4.1-mini] {fail_obs}")
                                     error_history.append({
                                         "error_type": "invalid_click_index",
                                         "iteration": it,
@@ -850,7 +849,7 @@ def main():
                             exec_action_click(info, web_ele, driver_task)
                         except Exception as e:
                             if "stale element reference" in str(e).lower():
-                                logging.info("[GPT-4o-mini] Stale element reference => re-fetch elements.")
+                                logging.info("[GPT-4.1-mini] Stale element reference => re-fetch elements.")
                                 error_history.append({
                                     "error_type": "stale_reference",
                                     "iteration": it,
@@ -864,7 +863,7 @@ def main():
                                 if not args.text_only:
                                     if idx < 0 or idx >= len(web_eles):
                                         fail_obs = "Invalid numerical label for click action."
-                                        logging.error(f"[GPT-4o-mini] {fail_obs}")
+                                        logging.error(f"[GPT-4.1-mini] {fail_obs}")
                                         error_history.append({
                                             "error_type": "invalid_click_index",
                                             "iteration": it,
@@ -875,7 +874,7 @@ def main():
                                 else:
                                     if idx < 0 or idx >= len(obs_info):
                                         fail_obs = "Invalid numerical label for click action."
-                                        logging.error(f"[GPT-4o-mini] {fail_obs}")
+                                        logging.error(f"[GPT-4.1-mini] {fail_obs}")
                                         error_history.append({
                                             "error_type": "invalid_click_index",
                                             "iteration": it,
@@ -935,7 +934,7 @@ def main():
                         if not args.text_only:
                             if idx < 0 or idx >= len(web_eles):
                                 fail_obs = "Invalid numerical label for type action."
-                                logging.error(f"[GPT-4o-mini] {fail_obs}")
+                                logging.error(f"[GPT-4.1-mini] {fail_obs}")
                                 error_history.append({
                                     "error_type": "invalid_type_index",
                                     "iteration": it,
@@ -946,7 +945,7 @@ def main():
                         else:
                             if idx < 0 or idx >= len(obs_info):
                                 fail_obs = "Invalid numerical label for type action."
-                                logging.error(f"[GPT-4o-mini] {fail_obs}")
+                                logging.error(f"[GPT-4.1-mini] {fail_obs}")
                                 error_history.append({
                                     "error_type": "invalid_type_index",
                                     "iteration": it,
@@ -977,13 +976,13 @@ def main():
                         driver_task.get('https://www.google.com/')
                         time.sleep(2)
                     elif action_key == 'refresh':
-                        logging.info("[GPT-4o-mini] Executing Refresh action.")
+                        logging.info("[GPT-4.1-mini] Executing Refresh action.")
                         exec_action_refresh(driver_task)
                     elif action_key == 'zoom':
-                        logging.info(f"[GPT-4o-mini] Executing Zoom with parameter: {info['content']}")
+                        logging.info(f"[GPT-4.1-mini] Executing Zoom with parameter: {info['content']}")
                         exec_action_zoom(info, driver_task)
                     elif action_key == 'answer':
-                        logging.info("[GPT-4o-mini] Final answer action received.")
+                        logging.info("[GPT-4.1-mini] Final answer action received.")
                         break
                     else:
                         error_history.append({
@@ -995,7 +994,7 @@ def main():
 
                     fail_obs = ""
                 except Exception as e:
-                    logging.error("[GPT-4o-mini] Driver error:")
+                    logging.error("[GPT-4.1-mini] Driver error:")
                     logging.error(e)
                     if 'element click intercepted' not in str(e):
                         fail_obs = (

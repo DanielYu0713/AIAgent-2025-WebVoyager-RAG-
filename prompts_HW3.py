@@ -289,7 +289,7 @@
 # """
 
 # HW2: 系統提示與 Agent 提示
-
+# HW3: Important部分，與Scroll相關的有修改
 SYSTEM_PROMPT = """
 You are an automated web-browsing agent designed to perform online tasks step-by-step.
 
@@ -316,12 +316,11 @@ Important:
 - For each candidate product found, extract and record its information using the format:
   "Product: <Product_Name>, Website: $<Website>, Price: $<Price>".
 - Only after gathering at least two candidate products, you MUST compare them based on brand reputation, quality, price, and overall value.
-- After scrolling two times and collecting sufficient candidate products, you MUST decide the final answer. The final answer must be provided using the command: Answer; followed by the chosen product’s information and a detailed explanation of your comparison.
+- After scrolling two times and collecting five candidate products, you MUST decide the final answer. The final answer must be provided using the command: Answer; followed by the chosen product’s information and a detailed explanation of your comparison.
 - Do not use Type or other actions for the final answer.
 
 Additional Guidelines:
 - Avoid clicking Login/Sign-in or other unnecessary menus. Instead, try to locate a search bar or use the Google action if needed.
-- After entering a search query, you MUST scroll through the entire first page of product listings to gather as much information as possible.
 - For scroll actions, you MUST respond exactly in the following format:
       Scroll [<number or WINDOW>]; <up or down>
   For example:

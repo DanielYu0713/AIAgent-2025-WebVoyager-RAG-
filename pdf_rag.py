@@ -175,7 +175,7 @@ class ImageProcessor:
     def __init__(self,
                  openai_client: OpenAI,
                  logger: logging.Logger,
-                 description_model: str = "gpt-4o-mini"):
+                 description_model: str = "gpt-4.1-mini"):
         """
         Initialize the image processor
 
@@ -773,7 +773,7 @@ class PDFEnhancementPipeline:
             embedding_type: Literal["openai"] = "openai",
             openai_org_id: Optional[str] = None,
             persist_directory: str = "./chroma_db",
-            image_description_model: str = "gpt-4o-mini"
+            image_description_model: str = "gpt-4.1-mini"
     ):
         """
         Initialize the PDF enhancement pipeline

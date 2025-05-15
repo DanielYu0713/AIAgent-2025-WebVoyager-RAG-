@@ -316,7 +316,7 @@ class InstructionManualGenerator:
             str: The response from OpenAI's API.
         """
         response = self.openai_client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4.1-mini",
             messages=[{"role": "system", "content": self.system_role},
                       {"role": "user", "content": prompt}],
             temperature=0.3
