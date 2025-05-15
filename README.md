@@ -100,7 +100,7 @@ Automatically generate a structured, actionable manual by combining RAG-retrieve
      - When citing a chunk, annotate `(from chunk #idx)`.
 
 3. **Calling the LLM**
-   - Use `gpt-4o-mini` (or another specified model) for Chat Completion.  
+   - Use `gpt-4.1-mini` (or another specified model) for Chat Completion.  
    - Set `temperature` around `0.3` to balance creativity and stability.  
    - Recommend `max_tokens` below `500` to avoid hitting the token limit.
 
@@ -139,7 +139,7 @@ This repository contains the code for **WebPriceCompare**, an AI-powered web age
 ### Key Features
 - **Multi-Site Price Comparison**: The agent browses multiple e-commerce websites and extracts product prices for comparison.
 - **Automated Web Interaction**: Uses Selenium to navigate, search for products, and extract price information.
-- **AI-Powered Decision Making**: Uses GPT-4o-mini to determine the lowest price and generate a final decision.
+- **AI-Powered Decision Making**: Uses GPT-4.1-mini to determine the lowest price and generate a final decision.
 - **Support for Dynamic Pages**: Handles pages with AJAX loading, pop-ups, and accessibility tree-based navigation.
 
 ## Setup Environment
@@ -203,7 +203,7 @@ nohup python -u run.py \
 #### **Method 2: Windows Direct Execution**
 For **Windows users**, you can run the agent directly:
 ```powershell
-"C:\Users\user\AppData\Local\Programs\Python\Python310\python.exe" run.py --temperature 0.0 --test_file data/tasks_test.jsonl --api_key "YOUR-OPENAI-API-KEY" --api_model gpt-4o-mini
+"C:\Users\user\AppData\Local\Programs\Python\Python310\python.exe" run.py --temperature 0.0 --test_file data/tasks_test.jsonl --api_key "YOUR-OPENAI-API-KEY" --api_model gpt-4.1-mini
 ```
 
 ### Output
@@ -256,7 +256,7 @@ Price: $39.99
 ---
 
 ## Agent Architecture
-- **Executor Agent**: Drives the browsing loop, calls GPT‑4o-mini to generate “Thought”/“Action”, parses them, and executes via Selenium.  
+- **Executor Agent**: Drives the browsing loop, calls GPT‑4.1-mini to generate “Thought”/“Action”, parses them, and executes via Selenium.  
 - **Error Grounding Agent**: After each action (>1), analyzes screenshot vs. intended Thought, returns `Errors: Yes/No` + explanation, which is injected into the next prompt.  
 - **Reflection Agent**: After collecting multiple candidate products, compares on brand reputation, discount, shipping, and outputs a detailed chain‑of‑thought final recommendation.  
 - **Debater Agent**: Reviews the Reflection Agent’s decision (Accept: Yes/No). If rejected, triggers a re‑reflection cycle.  
