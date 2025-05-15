@@ -1,0 +1,3 @@
+{"id": 1, "ques": "Find the cheapest product on each website. Only answer the cheapest one.", "product": "playstation 5 console", "websites": ["https://www.amazon.com/" ,"https://www.target.com/"]}
+{"id": 2, "ques": "Find the **cheapest** product on each website. Only answer the **cheapest** one.", "product": "a pair of mens running shoes in black, size 7", "websites": ["https://www.amazon.com/" ,"https://www.target.com/"]}
+{"id": 3, "ques": "Find the cheapest product on each website. Only answer the cheapest one.", "product": "a portable Bluetooth speaker with a water-resistant design", "websites": ["https://www.amazon.com/" ,"https://www.target.com/"]}

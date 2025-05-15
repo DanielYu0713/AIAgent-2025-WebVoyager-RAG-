@@ -1,0 +1,12 @@
+openai==1.78.1          # 官方 Python SDK for OpenAI API 
+selenium==4.32.0        # 瀏覽器自動化框架 
+PyAutoGUI==0.9.54       # 螢幕／滑鼠鍵盤自動化 
+langchain==0.3.25       # LLM 應用組裝框架 
+chromadb==1.0.9         # 向量資料庫 Chroma 
+pdfplumber==0.11.6      # PDF 解析工具 
+PyMuPDF==1.25.5         # 高效 PDF 讀寫與轉換 
+pymupdf4llm==0.0.24     # PyMuPDF RAG 工具集 
+pytesseract==0.3.13     # Tesseract OCR Python 介面 
+Pillow==11.2.1          # 圖像處理 (PIL Fork) 
+numpy==2.2.5            # 陣列運算基礎套件 
+typing-extensions==4.13.2  # 額外型別提示支援 
